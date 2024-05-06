@@ -4,11 +4,11 @@ import com.fraporti.backend.model.Usuario;
 import com.fraporti.backend.repository.UsuarioRepository;
 import com.fraporti.backend.util.JwtUtil;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -39,7 +39,9 @@ public class AuthService {
         if(usuario.isPresent()){
             return new ResponseEntity<>("Já existe uma conta cadastrada para esse email!", HttpStatus.UNAUTHORIZED);
         }
+        user.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
         user = this.usuarioRepository.save(user);
+        user.setPassword(null);
         return new ResponseEntity<>(user, HttpStatus.CREATED);
     }
 }
