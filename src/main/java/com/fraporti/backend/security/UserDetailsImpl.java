@@ -1,9 +1,10 @@
 package com.fraporti.backend.security;
 
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
-import java.util.Collection;
+import java.util.List;
 
 @Service
 public class UserDetailsImpl implements UserDetails {
@@ -13,12 +14,12 @@ public class UserDetailsImpl implements UserDetails {
     private boolean accountNonExpired;
     private boolean accountNonLocked;
     private boolean credentialsNonExpired;
-    private Collection<AuthorityImpl> authorities;
+    private List<GrantedAuthority> authorities;
 
     public UserDetailsImpl() {}
 
     @Override
-    public Collection<AuthorityImpl> getAuthorities() {
+    public List<GrantedAuthority> getAuthorities() {
         return this.authorities;
     }
 
@@ -76,7 +77,7 @@ public class UserDetailsImpl implements UserDetails {
         this.credentialsNonExpired = credentialsNonExpired;
     }
 
-    public void setAuthorities(Collection<AuthorityImpl> authorities) {
+    public void setAuthorities(List<GrantedAuthority> authorities) {
         this.authorities = authorities;
     }
 }

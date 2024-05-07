@@ -2,7 +2,7 @@ package com.fraporti.backend.model;
 
 import jakarta.persistence.*;
 
-import java.util.Collection;
+import java.util.List;
 
 @Entity
 @Table(name = "USUARIOS")
@@ -15,6 +15,15 @@ public class Usuario {
     private String username;
     @Column(name = "SENHA")
     private String password;
+    @Column(name = "ATIVO")
+    private boolean enabled;
+    @Column(name = "EXPIRADO")
+    private boolean expired;
+    @Column(name = "BLOQUEADO")
+    private boolean locked;
+    @Column(name = "SENHA_EXPIRADA")
+    private boolean credentialsExpired;
+    //ToDo: para melhor utilização, é interessante acrescentar campos de validade da senha que "controle" o campo de senha expirada
 
     @ManyToMany
     @JoinTable(
@@ -22,12 +31,44 @@ public class Usuario {
             joinColumns = @JoinColumn(name = "ID_USUARIO"),
             inverseJoinColumns = @JoinColumn(name = "ID_PERMISSAO")
     )
-    private Collection<Permissao> authorities;
+    private List<Permissao> authorities;
 
     @Transient
     private String token;
 
     public Usuario() {}
+
+    public boolean isEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
+    }
+
+    public boolean isExpired() {
+        return expired;
+    }
+
+    public void setExpired(boolean expired) {
+        this.expired = expired;
+    }
+
+    public boolean isLocked() {
+        return locked;
+    }
+
+    public void setLocked(boolean locked) {
+        this.locked = locked;
+    }
+
+    public boolean isCredentialsExpired() {
+        return credentialsExpired;
+    }
+
+    public void setCredentialsExpired(boolean credentialsExpired) {
+        this.credentialsExpired = credentialsExpired;
+    }
 
     public Long getId() {
         return id;
@@ -53,11 +94,11 @@ public class Usuario {
         this.password = password;
     }
 
-    public Collection<Permissao> getAuthorities() {
+    public List<Permissao> getAuthorities() {
         return authorities;
     }
 
-    public void setAuthorities(Collection<Permissao> authorities) {
+    public void setAuthorities(List<Permissao> authorities) {
         this.authorities = authorities;
     }
 
